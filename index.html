@@ -1,0 +1,1001 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- PREVIEW: remove this noindex line when the checkout link is live. -->
+<meta name="robots" content="noindex">
+<title>Loci - a memory that survives between AI chats</title>
+<meta name="description" content="Loci compiles your notes into one dated brief — who you are, what you decided, how you work — and searches your local files with citations. For Claude, Cursor, or OpenCode. Local. One-time price.">
+<meta property="og:title" content="Loci — a memory that survives between AI chats">
+<meta property="og:description" content="One dated brief instead of a pile of fragments, plus a cited knowledge base from your own files. Local-first memory for Claude Desktop, Cursor, OpenCode, Windsurf, and Zed.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kingxkingt.github.io/loci/">
+<meta property="og:image" content="https://kingxkingt.github.io/loci/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Loci - one dated brief instead of a pile of fragments.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://kingxkingt.github.io/loci/og.png">
+<link rel="canonical" href="https://kingxkingt.github.io/loci/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231b1915'/%3E%3Ccircle cx='11' cy='11' r='3' fill='%23f3eee4'/%3E%3Ccircle cx='21' cy='11' r='3' fill='%23f3eee4'/%3E%3Ccircle cx='11' cy='21' r='3' fill='%23f3eee4'/%3E%3Ccircle cx='21' cy='21' r='3' fill='%23a33a26'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --paper: #f3eee4;
+    --paper-2: #fbf7ed;
+    --paper-3: #ece5d7;
+    --ink: #1b1915;
+    --ink-soft: #38332b;
+    --muted: #665e51;
+    --rule: #d8cebd;
+    --rule-strong: #b6a992;
+    --red: #a33a26;
+    --red-ink: #7c2b1c;
+    --red-bright: #e08067;
+    --green: #3e5b45;
+    --mono: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 17px/1.62 var(--serif);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection { background: var(--red); color: var(--paper-2); }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--red);
+    outline-offset: 3px;
+  }
+  img { max-width: 100%; display: block; }
+
+  .skip {
+    position: absolute; left: -999px; top: 0;
+    background: var(--ink); color: var(--paper);
+    padding: 10px 16px; z-index: 100;
+    font: 600 13px var(--sans);
+  }
+  .skip:focus { left: 12px; top: 12px; }
+
+  .wrap { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
+
+  /* ---------- header ---------- */
+  .site-head {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--paper) 94%, transparent);
+    border-bottom: 1px solid var(--rule);
+    backdrop-filter: blur(6px);
+  }
+  .head-in {
+    display: flex; align-items: center; gap: 28px;
+    min-height: 64px;
+  }
+  .brand {
+    display: inline-flex; align-items: center; gap: 10px;
+    text-decoration: none; font: 400 23px/1 var(--serif);
+    letter-spacing: -0.02em; margin-right: auto;
+  }
+  .mark { display: grid; grid-template-columns: repeat(2, 5px); gap: 3px; }
+  .mark i { width: 5px; height: 5px; background: var(--ink); border-radius: 50%; display: block; }
+  .mark i:last-child { background: var(--red); }
+  .nav { display: flex; align-items: center; gap: 24px; }
+  .nav a {
+    font: 500 12px/1 var(--sans); letter-spacing: 0.01em;
+    text-decoration: none; color: var(--ink-soft);
+  }
+  .nav a:hover { color: var(--red); }
+  .nav .buy-link {
+    background: var(--ink); color: var(--paper-2);
+    padding: 10px 14px; border-radius: 2px;
+    font-weight: 600;
+  }
+  .nav .buy-link:hover { background: var(--red); color: var(--paper-2); }
+
+  /* ---------- type ---------- */
+  .kicker {
+    font: 600 10.5px/1 var(--mono);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--red);
+  }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; }
+  h1 {
+    font-size: clamp(44px, 6.1vw, 74px);
+    line-height: 0.99; letter-spacing: -0.038em;
+    max-width: 13ch;
+  }
+  h1 em { font-style: italic; }
+  h2 {
+    font-size: clamp(32px, 4.1vw, 48px);
+    line-height: 1.06; letter-spacing: -0.028em;
+    margin: 14px 0 18px; max-width: 20ch;
+  }
+  .lede {
+    font-size: 19px; line-height: 1.6; color: var(--ink-soft);
+    max-width: 62ch; margin: 0;
+  }
+  .lede + .lede { margin-top: 14px; }
+
+  section { padding: 92px 0; border-top: 1px solid var(--rule); }
+  .section-head { margin-bottom: 46px; }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 82px 0 96px; border-top: 0; }
+  .hero-grid {
+    display: grid; grid-template-columns: 1.04fr 0.96fr;
+    gap: clamp(40px, 6vw, 78px); align-items: center;
+  }
+  .hero .kicker { margin-bottom: 22px; }
+  .hero-sub {
+    font-size: 19px; line-height: 1.58; color: var(--ink-soft);
+    max-width: 50ch; margin: 24px 0 0;
+  }
+  .cta-row {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 20px; margin-top: 32px;
+  }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 10px; text-decoration: none;
+    font: 600 14px/1 var(--sans); letter-spacing: 0.005em;
+    padding: 15px 21px; border-radius: 2px;
+    background: var(--ink); color: var(--paper-2);
+    border: 1px solid var(--ink);
+    transition: background 140ms ease, border-color 140ms ease;
+  }
+  .btn:hover { background: var(--red); border-color: var(--red); }
+  .btn .arrow { font-family: var(--sans); font-weight: 400; }
+  .link-quiet {
+    font: 500 13px/1.4 var(--sans); color: var(--ink-soft);
+    text-decoration: none; border-bottom: 1px solid var(--rule-strong);
+    padding-bottom: 3px;
+  }
+  .link-quiet:hover { color: var(--red); border-color: var(--red); }
+  .micro {
+    margin-top: 22px; font: 500 10.5px/1.7 var(--mono);
+    letter-spacing: 0.04em; color: var(--muted); text-transform: uppercase;
+  }
+  .micro span { white-space: nowrap; }
+
+  /* ---------- the brief card ---------- */
+  .brief-figure { margin: 0; }
+  .brief-card {
+    position: relative;
+    background: var(--paper-2);
+    border: 1px solid var(--rule-strong);
+    box-shadow: 10px 10px 0 rgba(27, 25, 21, 0.065);
+    padding: 20px 22px 18px 32px;
+  }
+  .brief-card::before {
+    content: ""; position: absolute; left: 17px; top: 0; bottom: 0;
+    width: 1px; background: var(--red); opacity: 0.55;
+  }
+  .brief-top {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 12px; padding-bottom: 12px; margin-bottom: 14px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .brief-top .tag {
+    font: 600 9.5px/1 var(--mono); letter-spacing: 0.16em;
+    color: var(--muted); text-transform: uppercase; padding-top: 5px;
+  }
+  .stamp {
+    transform: rotate(3.5deg);
+    border: 1px solid var(--red); color: var(--red);
+    font: 700 8.5px/1 var(--mono); letter-spacing: 0.16em;
+    padding: 5px 6px 4px; white-space: nowrap;
+  }
+  .brief-body {
+    margin: 0; font: 400 11.4px/1.62 var(--mono);
+    color: var(--ink-soft); white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .brief-body .bh { color: var(--red-ink); font-weight: 700; }
+  .brief-body .dim { color: var(--muted); }
+  .brief-foot {
+    display: flex; justify-content: space-between; gap: 14px;
+    border-top: 1px solid var(--rule); margin-top: 14px; padding-top: 10px;
+    font: 500 9.5px/1.4 var(--mono); letter-spacing: 0.03em;
+    color: var(--muted); text-transform: uppercase;
+  }
+  .brief-figure figcaption {
+    margin-top: 16px; font: 400 11px/1.5 var(--mono);
+    color: var(--muted); max-width: 46ch;
+  }
+
+  /* ---------- comparison ---------- */
+  .compare { background: var(--paper-3); }
+  .compare-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 22px; margin-top: 12px;
+  }
+  .panel {
+    background: var(--paper-2); border: 1px solid var(--rule-strong);
+    padding: 22px; min-height: 300px; display: flex; flex-direction: column;
+  }
+  .panel.faded { background: color-mix(in srgb, var(--paper-2) 55%, var(--paper-3)); }
+  .panel-label {
+    font: 600 9.5px/1 var(--mono); letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--muted);
+    display: flex; justify-content: space-between; gap: 12px;
+    padding-bottom: 14px; border-bottom: 1px solid var(--rule);
+  }
+  .panel-label .bad { color: var(--red); }
+  .panel-label .good { color: var(--green); }
+  .fake-search {
+    margin: 16px 0 12px; display: flex; align-items: center; gap: 8px;
+    border: 1px solid var(--rule); background: var(--paper);
+    padding: 9px 10px; font: 400 11px/1 var(--mono); color: var(--muted);
+  }
+  .fake-search b { color: var(--ink); font-weight: 500; }
+  .fake-search .cursor {
+    width: 1px; height: 12px; background: var(--ink);
+    display: inline-block; margin-left: -3px; opacity: 0.55;
+  }
+  .rows { list-style: none; margin: 0; padding: 0; }
+  .rows li {
+    display: grid; grid-template-columns: 54px 40px 1fr;
+    gap: 10px; align-items: baseline;
+    padding: 9px 0; border-bottom: 1px dotted var(--rule);
+    font: 400 10.8px/1.45 var(--mono); color: var(--muted);
+  }
+  .rows .id { color: var(--rule-strong); }
+  .rows .score { color: var(--red-ink); }
+  .rows .txt { color: var(--ink-soft); }
+  .panel-foot {
+    margin-top: auto; padding-top: 16px;
+    font: 400 10.5px/1.5 var(--mono); color: var(--muted);
+  }
+  .panel-foot strong { color: var(--ink); font-weight: 600; }
+  .mini-brief {
+    margin: 16px 0 0; font: 400 11.4px/1.62 var(--mono);
+    color: var(--ink-soft); white-space: pre-wrap;
+  }
+  .mini-brief .bh { color: var(--red-ink); font-weight: 700; }
+  .compare-note {
+    margin: 30px 0 0; font-size: 20px; line-height: 1.5;
+    max-width: 46ch; color: var(--ink);
+  }
+  .compare-note em { font-style: italic; }
+
+  /* ---------- contents ---------- */
+  .contents {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 0 54px; margin-top: 8px;
+  }
+  .content-row {
+    display: grid; grid-template-columns: 42px 1fr;
+    gap: 18px; padding: 24px 0; border-top: 1px solid var(--rule);
+  }
+  .content-row:nth-child(-n+2) { border-top: 0; }
+  .content-row .num {
+    font: 400 12px/1 var(--mono); color: var(--red);
+    padding-top: 5px; letter-spacing: 0.08em;
+  }
+  .content-row h3 { font-size: 25px; line-height: 1.15; letter-spacing: -0.015em; margin-bottom: 6px; }
+  .content-row p { margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.58; }
+
+  /* ---------- reversal ---------- */
+  .reversal { background: var(--paper); }
+  .reversal-grid {
+    display: grid; grid-template-columns: 0.9fr 1.1fr;
+    gap: clamp(36px, 6vw, 76px); align-items: start;
+  }
+  .reversal .lede { max-width: 44ch; }
+  .timeline { border-top: 2px solid var(--ink); }
+  .entry {
+    display: grid; grid-template-columns: 96px 1fr;
+    gap: 20px; padding: 22px 0; border-bottom: 1px solid var(--rule);
+  }
+  .entry .date {
+    font: 500 10px/1.5 var(--mono); letter-spacing: 0.07em;
+    color: var(--muted); text-transform: uppercase; padding-top: 3px;
+  }
+  .entry .claim { font-size: 20px; line-height: 1.35; letter-spacing: -0.01em; margin: 0 0 6px; }
+  .entry .why { margin: 0; font-size: 15px; line-height: 1.55; color: var(--muted); }
+  .entry .state {
+    display: inline-block; font: 700 8.5px/1 var(--mono);
+    letter-spacing: 0.14em; padding: 4px 5px 3px;
+    border: 1px solid currentColor; margin-left: 8px;
+    vertical-align: 2px;
+  }
+  .entry.old .claim { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 1px; }
+  .entry.old .state { color: var(--red); }
+  .entry.now .state { color: var(--green); }
+  .entry.now { border-bottom: 0; }
+  .reversal-foot {
+    margin-top: 26px; padding: 16px 18px;
+    background: var(--paper-2); border: 1px solid var(--rule);
+    font: 400 11px/1.65 var(--mono); color: var(--muted);
+  }
+  .reversal-foot b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- what you get ---------- */
+  .get-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--rule);
+    border: 1px solid var(--rule); margin-top: 8px;
+  }
+  .get {
+    background: var(--paper); padding: 26px 24px 28px;
+  }
+  .get h3 { font-size: 22px; line-height: 1.18; margin-bottom: 8px; letter-spacing: -0.012em; }
+  .get p { margin: 0; font-size: 15.5px; line-height: 1.58; color: var(--ink-soft); }
+  .get .tiny {
+    display: block; margin-top: 14px;
+    font: 400 10px/1.5 var(--mono); color: var(--muted);
+  }
+
+  /* ---------- privacy ---------- */
+  .privacy { background: var(--ink); color: var(--paper); border-top: 0; }
+  .privacy .kicker { color: var(--red-bright); }
+  .privacy h2 { color: var(--paper-2); }
+  .privacy .lede { color: #c9c0b1; }
+  .privacy-grid {
+    display: grid; grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(36px, 6vw, 70px); align-items: center;
+    margin-top: 8px;
+  }
+  .path-card {
+    background: #131210; border: 1px solid #3a352d;
+    padding: 20px 22px; font: 400 11.5px/1.85 var(--mono);
+    color: #b9b0a1; overflow-wrap: anywhere;
+  }
+  .path-card .p { color: #e8e0d2; }
+  .path-card .c { color: #7f7667; }
+  .path-card .r { color: var(--red-bright); }
+  .privacy-facts {
+    list-style: none; margin: 24px 0 0; padding: 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px;
+  }
+  .privacy-facts li {
+    font: 500 11px/1.5 var(--mono); letter-spacing: 0.04em;
+    color: #cfc6b7; padding-left: 16px; position: relative;
+  }
+  .privacy-facts li::before {
+    content: ""; position: absolute; left: 0; top: 6px;
+    width: 6px; height: 6px; background: var(--red-bright); border-radius: 50%;
+  }
+
+  /* ---------- price ---------- */
+  .price { text-align: center; }
+  .price .section-head { margin-bottom: 36px; }
+  .price h2 { margin-inline: auto; max-width: 16ch; }
+  .price .lede { margin-inline: auto; max-width: 48ch; }
+  .price-card {
+    width: min(480px, 100%); margin: 0 auto; text-align: left;
+    background: var(--paper-2); border: 1px solid var(--ink);
+    box-shadow: 8px 8px 0 var(--ink);
+    padding: 30px 30px 26px;
+  }
+  .price-top {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--rule);
+  }
+  .price-top .name { font-size: 21px; letter-spacing: -0.015em; }
+  .price-top .once {
+    font: 600 9px/1 var(--mono); letter-spacing: 0.14em;
+    color: var(--red); text-transform: uppercase;
+  }
+  .amount {
+    display: flex; align-items: flex-start; gap: 2px;
+    font: 400 64px/1 var(--serif); letter-spacing: -0.05em;
+    margin: 22px 0 2px;
+  }
+  .amount sup { font-size: 24px; line-height: 1; padding-top: 8px; letter-spacing: 0; }
+  .amount-note { font: 400 11px/1.4 var(--mono); color: var(--muted); }
+  .includes {
+    list-style: none; margin: 22px 0 24px; padding: 0;
+    display: grid; gap: 9px;
+  }
+  .includes li {
+    position: relative; padding-left: 20px;
+    font-size: 15px; line-height: 1.45; color: var(--ink-soft);
+  }
+  .includes li::before {
+    content: "→"; position: absolute; left: 0; top: 0;
+    font-family: var(--mono); font-size: 12px; color: var(--red);
+  }
+  .price-card .btn { width: 100%; padding: 16px 20px; font-size: 14.5px; }
+  .under {
+    text-align: center; margin: 12px 0 0;
+    font: 400 10.5px/1.5 var(--mono); color: var(--muted);
+  }
+  .refund {
+    text-align: center; margin: 18px 0 0;
+    font-size: 14px; color: var(--muted);
+  }
+
+  /* ---------- faq ---------- */
+  .faq-grid {
+    display: grid; grid-template-columns: 0.7fr 1.3fr;
+    gap: clamp(36px, 6vw, 76px); align-items: start;
+  }
+  .faq-grid h2 { max-width: 12ch; }
+  .faq-list { border-top: 2px solid var(--ink); }
+  details { border-bottom: 1px solid var(--rule); }
+  summary {
+    list-style: none; cursor: pointer;
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 20px; padding: 19px 0;
+    font-size: 19px; line-height: 1.35; letter-spacing: -0.01em;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary .plus {
+    font: 400 18px/1 var(--mono); color: var(--red);
+    flex: none; transition: transform 140ms ease;
+  }
+  details[open] summary .plus { transform: rotate(45deg); }
+  details p {
+    margin: -4px 0 20px; max-width: 58ch;
+    font-size: 16px; line-height: 1.6; color: var(--ink-soft);
+  }
+  details p a { color: var(--red-ink); }
+
+  /* ---------- closing ---------- */
+  .closing { padding: 78px 0; text-align: center; }
+  .closing p {
+    margin: 0 auto 24px; max-width: 22ch;
+    font: 400 clamp(30px, 4vw, 42px)/1.1 var(--serif);
+    letter-spacing: -0.03em;
+  }
+  .closing p em { font-style: italic; }
+
+  footer { border-top: 1px solid var(--rule); padding: 30px 0 40px; }
+  .foot-in {
+    display: flex; flex-wrap: wrap; align-items: baseline;
+    justify-content: space-between; gap: 16px 32px;
+  }
+  .foot-in .brand { font-size: 19px; margin: 0; }
+  .foot-note {
+    font: 400 10.5px/1.6 var(--mono); color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+  .foot-links { display: flex; gap: 18px; }
+  .foot-links a {
+    font: 500 11px/1 var(--sans); color: var(--muted);
+    text-decoration: none;
+  }
+  .foot-links a:hover { color: var(--red); }
+
+  @media (max-width: 980px) {
+    .hero-grid, .reversal-grid, .privacy-grid, .faq-grid { grid-template-columns: 1fr; }
+    .hero-grid { gap: 48px; }
+    .brief-card { max-width: 560px; }
+    .contents { grid-template-columns: 1fr; }
+    .content-row:nth-child(-n+2) { border-top: 1px solid var(--rule); }
+    .content-row:first-child { border-top: 0; }
+    .get-grid { grid-template-columns: 1fr 1fr; }
+    .faq-grid h2 { max-width: none; }
+    .reversal .lede { max-width: 58ch; }
+  }
+
+  @media (max-width: 640px) {
+    body { font-size: 16.5px; }
+    .wrap { width: calc(100% - 36px); }
+    .nav a:not(.buy-link) { display: none; }
+    .nav { gap: 10px; }
+    .hero { padding: 54px 0 68px; }
+    h1 { font-size: clamp(40px, 11.5vw, 56px); max-width: 12ch; }
+    h2 { font-size: clamp(30px, 8.5vw, 38px); }
+    section { padding: 64px 0; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .get-grid { grid-template-columns: 1fr; }
+    .panel { min-height: 0; }
+    .brief-card { padding: 18px 16px 15px 26px; }
+    .brief-body { font-size: 10.8px; }
+    .entry { grid-template-columns: 1fr; gap: 6px; }
+    .entry .date { padding-top: 0; }
+    .contents { gap: 0; }
+    .price-card { padding: 24px 20px 22px; box-shadow: 5px 5px 0 var(--ink); }
+    .amount { font-size: 56px; }
+    .privacy-facts { grid-template-columns: 1fr; }
+    .foot-in { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap head-in">
+    <a class="brand" href="#top" aria-label="Loci, home">
+      <span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      Loci
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#brief">The brief</a>
+      <a href="#files">Your files</a>
+      <a href="#how">How it works</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#price">Price</a>
+      <!-- SELLING: replace href on every a[data-buy] with your checkout URL. -->
+      <a class="buy-link" href="#price" data-buy>Buy — $24</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div id="top"></div>
+
+  <!-- ---------------------------------------------------------------- hero -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="kicker">Local memory for AI assistants</p>
+        <h1>Stop introducing yourself to <em>your own</em> assistant.</h1>
+        <p class="hero-sub">
+          Loci keeps one dated brief — who you are, what you decided, how you like to work —
+          and hands it to Claude, Cursor, or OpenCode before the first token.
+          It runs on your PC. You pay once.
+        </p>
+        <div class="cta-row">
+          <a class="btn" href="#price" data-buy>Buy Loci — $24 <span class="arrow">→</span></a>
+          <a class="link-quiet" href="#brief">Read a real brief</a>
+        </div>
+        <p class="micro">
+          <span>Windows 10 / 11</span> · <span>Its own runtime</span> ·
+          <span>No account</span> · <span>No subscription</span>
+        </p>
+      </div>
+
+      <figure class="brief-figure">
+        <div class="brief-card" aria-label="Sample compiled brief">
+          <div class="brief-top">
+            <span class="tag">memory_context</span>
+            <span class="stamp">current · 02 nov 26</span>
+          </div>
+<pre class="brief-body">&lt;memory_context source="loci"&gt;
+<span class="dim">A handover from this user's own notes, not guesses.
+Do not recite it back.</span>
+
+<span class="bh">Who they are:</span>
+- Sam R. — runs a two-person design studio in Lisbon.
+- Builds with TypeScript, React, Postgres, Fly.io.
+
+<span class="bh">What they are building:</span>
+- A local-first memory tool for AI assistants.
+
+<span class="bh">Decisions in force (binding):</span>
+- 2 Nov 2026 — No subscriptions; one-time price only.
+- 2 Nov 2026 — Data stays on the user's machine.
+- 14 Oct 2026 — Postgres, not SQLite. The queries outgrew it.
+
+<span class="bh">How they like to work:</span>
+- Blunt, no hedging. Code first, then explain.
+- Do not add a dependency without asking.
+
+<span class="bh">Open loops:</span>
+- Finish the browser extension.</pre>
+          <div class="brief-foot">
+            <span>12 notes → 1 page</span>
+            <span>659 chars</span>
+          </div>
+        </div>
+        <figcaption>
+          Compiler output, not a model summary. Same state in, same text out — so prompt caching
+          keeps working and you can audit every line.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- --------------------------------------------------------- comparison -->
+  <section class="compare" aria-labelledby="problem-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">01 — The problem</p>
+        <h2 id="problem-title">A search box is not a memory.</h2>
+        <p class="lede">
+          Every chat starts at zero. So you explain the stack again, restate the constraint, and
+          re-litigate a decision you settled in March. Retrieval tools hand the model a pile of
+          fragments and hope it guesses which ones still apply.
+        </p>
+      </div>
+
+      <div class="compare-grid">
+        <div class="panel faded">
+          <div class="panel-label"><span>What retrieval returns</span><span class="bad">38 fragments</span></div>
+          <div class="fake-search"><span>how should I store the data?</span><span class="cursor" aria-hidden="true"></span><b>0.81</b></div>
+          <ul class="rows">
+            <li><span class="id">#4182</span><span class="score">0.81</span><span class="txt">"looked at SQLite once"</span></li>
+            <li><span class="id">#2291</span><span class="score">0.79</span><span class="txt">"prefers short answers?"</span></li>
+            <li><span class="id">#8830</span><span class="score">0.77</span><span class="txt">"Lisbon"</span></li>
+            <li><span class="id">#1044</span><span class="score">0.74</span><span class="txt">"no subscriptions, maybe"</span></li>
+          </ul>
+          <p class="panel-foot">
+            <strong>6,200 tokens.</strong> The model still has to decide what is true, what is stale,
+            and which two fragments contradict each other.
+          </p>
+        </div>
+
+        <div class="panel">
+          <div class="panel-label"><span>What Loci hands over</span><span class="good">1 page</span></div>
+<pre class="mini-brief"><span class="bh">Decisions in force (binding):</span>
+- 2 Nov 2026 — Postgres, not SQLite.
+- 2 Nov 2026 — No subscriptions.
+
+<span class="bh">How they like to work:</span>
+- Blunt, no hedging. Code first, then explain.
+- Do not add a dependency without asking.</pre>
+          <p class="panel-foot">
+            <strong>659 characters.</strong> Every line is current. Nothing is ranked by similarity,
+            because nothing in it is optional.
+          </p>
+        </div>
+      </div>
+
+      <p class="compare-note">The difference is not storage. It is <em>editing.</em></p>
+    </div>
+  </section>
+
+  <!-- -------------------------------------------------------------- brief -->
+  <section id="brief" aria-labelledby="brief-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">02 — The brief</p>
+        <h2 id="brief-title">One page, in the order a colleague would say it.</h2>
+        <p class="lede">
+          Loci compiles your notes into a fixed structure. Identity first, then what you are building,
+          then the decisions that are still binding, then the loops you have not closed.
+        </p>
+      </div>
+
+      <div class="contents">
+        <div class="content-row">
+          <span class="num">01</span>
+          <div>
+            <h3>Identity</h3>
+            <p>What to call you, what you do, and the register you want back. Pinned, so it survives any budget cut.</p>
+          </div>
+        </div>
+        <div class="content-row">
+          <span class="num">02</span>
+          <div>
+            <h3>Decisions</h3>
+            <p>Dated and binding. The brief says “in force” because it means it — not “related context.”</p>
+          </div>
+        </div>
+        <div class="content-row">
+          <span class="num">03</span>
+          <div>
+            <h3>Constraints</h3>
+            <p>The stack, the budget, the things that must never happen again. One line each, written to be obeyed.</p>
+          </div>
+        </div>
+        <div class="content-row">
+          <span class="num">04</span>
+          <div>
+            <h3>Open loops</h3>
+            <p>What is half-finished, so the next chat picks up instead of restarting from your first sentence.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ----------------------------------------------------------- reversal -->
+  <section class="reversal" aria-labelledby="reversal-title">
+    <div class="wrap reversal-grid">
+      <div>
+        <p class="kicker">03 — Reversal</p>
+        <h2 id="reversal-title">Changing your mind is the hard part.</h2>
+        <p class="lede">
+          Most memory tools keep both versions and let similarity sort it out. Loci retires the old
+          claim. The brief never contains a contradiction; the append-only log still contains the receipt.
+        </p>
+        <div class="reversal-foot">
+          <b>Retired memories leave the brief, search, and export.</b><br>
+          They stay in <span>memories.jsonl</span> so you can answer “why did we change this?” six months later.
+        </div>
+      </div>
+
+      <div class="timeline" aria-label="A decision being superseded">
+        <div class="entry old">
+          <span class="date">14 Oct 2026</span>
+          <div>
+            <p class="claim">Use SQLite for the store.<span class="state">retired</span></p>
+            <p class="why">The queries outgrew it. Superseded by the entry below; the original stays in the log.</p>
+          </div>
+        </div>
+        <div class="entry now">
+          <span class="date">02 Nov 2026</span>
+          <div>
+            <p class="claim">Use Postgres for the store.<span class="state">in force</span></p>
+            <p class="why">SQLite cannot do the queries we need. This is the only storage decision the assistant will read.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- -------------------------------------------------------------- files -->
+  <section id="files" aria-labelledby="files-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">04 — Your files</p>
+        <h2 id="files-title">The answer is in a document. Now the assistant can cite it.</h2>
+        <p class="lede">
+          Memory is what you told it. A knowledge base is what your files already say. Loci keeps
+          them separate on purpose: a memory is a claim you can retire, while a file is evidence, and
+          every excerpt names the document and the part it came from.
+        </p>
+      </div>
+
+      <div class="get-grid">
+        <div class="get">
+          <h3>Import locally</h3>
+          <p>
+            Add a file in the Files tab, or run <code>loci docs add</code>. Text, Markdown, HTML,
+            RTF, DOCX, and text-based PDF are extracted on your machine. Edit the file and import it
+            again: Loci updates that document instead of making a duplicate.
+          </p>
+          <span class="tiny">No upload · no cloud conversion · no OCR</span>
+        </div>
+        <div class="get">
+          <h3>Answers point at the passage</h3>
+          <p>
+            Markdown headings start new parts, so “Refunds” does not trail into “Support”. Code files
+            split at lines, not at <code>#</code> comments. The assistant gets a citation like
+            <code>["MSA 2026" — part 4 of 11]</code>, not an unattributed summary.
+          </p>
+          <span class="tiny">Click a result to read the source · comments never become fake headings</span>
+        </div>
+        <div class="get">
+          <h3>Only the match enters</h3>
+          <p>
+            Documents stay out of the default brief. A folder of manuals cannot crowd out the
+            decisions that are always relevant; a file appears only when the current question
+            matches it.
+          </p>
+          <span class="tiny">Nine tools total · 3 for files, 6 for memory</span>
+        </div>
+      </div>
+
+      <p class="compare-note">A search box finds text. A citation tells you <em>which</em> text, and where.</p>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------- what you get -->
+  <section id="how" aria-labelledby="get-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">05 — What you get</p>
+        <h2 id="get-title">The unglamorous parts, done.</h2>
+        <p class="lede">
+          No vector database to host. No account to create. No “memory pipeline” to debug at 11pm.
+        </p>
+      </div>
+
+      <div class="get-grid">
+        <div class="get">
+          <h3>A window you can read</h3>
+          <p>Every memory, searchable as you type. Paste a chat and keep only the lines worth remembering. Edit, pin, retire, or delete without opening a terminal. Flag a shaky memory and the review queue counts what is waiting.</p>
+          <span class="tiny">Served from 127.0.0.1 · per-run token · feedback stays local</span>
+        </div>
+        <div class="get">
+          <h3>Eight questions, not a blank page</h3>
+          <p>First run opens a two-minute interview and compiles a real brief before you ever open a chat.</p>
+          <span class="tiny">All eight skippable · nothing saved until you finish</span>
+        </div>
+        <div class="get">
+          <h3>Connects itself</h3>
+          <p>The installer finds Claude Desktop, Cursor, OpenCode, Windsurf, or Zed and writes the MCP entry for you.</p>
+          <span class="tiny">Restart the app once · nine tools appear</span>
+        </div>
+        <div class="get">
+          <h3>Global and per-project</h3>
+          <p>Who you are follows you everywhere. Stack details stay with the folder that needs them. Switch folders from the header.</p>
+          <span class="tiny">Browse for a folder · global always available</span>
+        </div>
+        <div class="get">
+          <h3>Export is plain JSON</h3>
+          <p>Your memories are not hostage. Export current truth, import it on another machine, or read the log yourself.</p>
+          <span class="tiny">No lock-in · no proprietary format</span>
+        </div>
+        <div class="get">
+          <h3>No dependency circus</h3>
+          <p>No native modules, no database server, no Docker. The Windows download carries its own runtime.</p>
+          <span class="tiny">Double-click install.bat · no Node install</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------------ privacy -->
+  <section id="privacy" class="privacy" aria-labelledby="privacy-title">
+    <div class="wrap privacy-grid">
+      <div>
+        <p class="kicker">06 — Privacy</p>
+        <h2 id="privacy-title">It is a file on your computer. That is the architecture.</h2>
+        <p class="lede">
+          No account, no sync, no telemetry. Your assistant reads the brief through a local MCP
+          process; the window is a local page. Nothing leaves the machine unless you paste it somewhere.
+        </p>
+        <ul class="privacy-facts">
+          <li>Works offline</li>
+          <li>No API key</li>
+          <li>No analytics</li>
+          <li>No cloud copy</li>
+        </ul>
+      </div>
+
+      <div class="path-card" aria-label="Where the data lives">
+        <div><span class="p">C:\Users\you\.loci\</span></div>
+        <div><span class="c">├─</span> <span class="p">memories.jsonl</span> <span class="c">the append-only log</span></div>
+        <div><span class="c">├─</span> <span class="p">documents.jsonl</span> <span class="c">your imported files</span></div>
+        <div><span class="c">├─</span> <span class="p">config.json</span> <span class="c">your settings</span></div>
+        <div><span class="c">└─</span> <span class="p">projects\</span> <span class="c">per-project stores</span></div>
+        <div>&nbsp;</div>
+        <div><span class="c"># the UI server</span></div>
+        <div><span class="r">127.0.0.1</span><span class="c">, token required, cross-origin refused</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- -------------------------------------------------------------- price -->
+  <section id="price" class="price" aria-labelledby="price-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">07 — Price</p>
+        <h2 id="price-title">Pay once. Keep it.</h2>
+        <p class="lede">
+          No subscription, no seats, no cloud bill. The assistant is yours; the memory should be too.
+        </p>
+      </div>
+
+      <div class="price-card">
+        <div class="price-top">
+          <span class="name">Loci for Windows</span>
+          <span class="once">one-time</span>
+        </div>
+        <div class="amount"><sup>$</sup>24</div>
+        <div class="amount-note">One payment. No renewal. No account.</div>
+        <ul class="includes">
+          <li>Windows installer with its own runtime — no Node, no terminal</li>
+          <li>Desktop memory window: search, edit, pin, retire, review queue</li>
+          <li>Local file knowledge base with quoted citations and in-place re-import</li>
+          <li>MCP server for Claude Desktop, Cursor, OpenCode, Windsurf, and Zed</li>
+          <li>The brief compiler, supersede, project scope, and JSON export</li>
+          <li>The current version is yours to keep and run offline</li>
+        </ul>
+        <!-- SELLING: replace this href with your checkout URL. -->
+        <a class="btn" href="#price" data-buy>Buy Loci — $24 <span class="arrow">→</span></a>
+        <p class="under">Secure checkout · card details never touch Loci</p>
+        <p class="refund">Thirty days. If it does not save you an hour, reply to the receipt and I will refund it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- faq -->
+  <section id="faq" aria-labelledby="faq-title">
+    <div class="wrap faq-grid">
+      <div>
+        <p class="kicker">08 — Questions</p>
+        <h2 id="faq-title">Questions people actually ask.</h2>
+      </div>
+
+      <div class="faq-list">
+        <details>
+          <summary>Does it work with ChatGPT?<span class="plus" aria-hidden="true">+</span></summary>
+          <p>
+            Not the web app. ChatGPT cannot launch a local MCP server, and Loci does not pretend
+            otherwise. It works today with Claude Desktop, Cursor, OpenCode, Windsurf, and Zed.
+            A browser extension for web chats is the next thing being built.
+          </p>
+        </details>
+        <details>
+          <summary>Do I need Node.js?<span class="plus" aria-hidden="true">+</span></summary>
+          <p>
+            No. The Windows download includes its own runtime. Extract the zip, double-click
+            <strong>install.bat</strong>, restart your assistant. That is the whole setup.
+          </p>
+        </details>
+        <details>
+          <summary>Is my data sent anywhere?<span class="plus" aria-hidden="true">+</span></summary>
+          <p>
+            No. There is no account and no server. The only copies are the files in your
+            <code>.loci</code> folder and whatever you choose to export or paste.
+          </p>
+        </details>
+        <details>
+          <summary>Does it read my chats automatically?<span class="plus" aria-hidden="true">+</span></summary>
+          <p>
+            No. Loci does not watch your screen or hook your chat app. Use <strong>From a chat</strong>
+            to paste a conversation, review the lines it found, and save only what you choose. When an
+            assistant is connected through MCP, it can add a memory after you ask it to remember
+            something — but Loci itself never captures in the background.
+          </p>
+        </details>
+        <details>
+          <summary>Can it search my own files?<span class="plus" aria-hidden="true">+</span></summary>
+          <p>
+            Yes. Add a local document in the Files tab. Loci extracts the text on your machine,
+            splits it at Markdown headings (or lines for code), indexes each part, and returns the
+            matching excerpt with the document name and part number. Import the edited file again and
+            it updates that document instead of duplicating it. Scans without a text layer are
+            refused, and nothing is uploaded.
+          </p>
+        </details>
+        <details>
+          <summary>What happens when I change my mind?<span class="plus" aria-hidden="true">+</span></summary>
+          <p>
+            Retire the old memory — the ⊘ button in the window, or <code>--supersedes</code> on the
+            command line. The new claim becomes active, the old one leaves the brief and search, and
+            the history stays in the log for audit.
+          </p>
+        </details>
+        <details>
+          <summary>Can I use it across several projects?<span class="plus" aria-hidden="true">+</span></summary>
+          <p>
+            Yes. Memories are global by default. Use the switch in the header to open any folder —
+            a code project, a client folder, or a course — and Loci keeps a second store for it. The
+            window and the brief can be scoped to global, project, or both.
+          </p>
+        </details>
+        <details>
+          <summary>What if I move to another PC?<span class="plus" aria-hidden="true">+</span></summary>
+          <p>
+            Export to JSON on the old machine, import on the new one. The store is plain text, so you
+            can also copy the folder yourself.
+          </p>
+        </details>
+        <details>
+          <summary>Is this a subscription?<span class="plus" aria-hidden="true">+</span></summary>
+          <p>
+            No. One payment. The version you buy is yours. If a future major version is worth
+            charging for, it will be a separate purchase — you will not be forced to upgrade and
+            nothing will stop working.
+          </p>
+        </details>
+        <details>
+          <summary>Windows only?<span class="plus" aria-hidden="true">+</span></summary>
+          <p>
+            The installer is for Windows 10 and 11. The engine is plain Node with no native modules,
+            so it runs on macOS and Linux from source today; packaged installers for those are not
+            available yet.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------------- closing -->
+  <section class="closing" aria-label="Buy Loci">
+    <div class="wrap">
+      <p>Next time, start <em>where you left off.</em></p>
+      <a class="btn" href="#price" data-buy>Buy Loci — $24 <span class="arrow">→</span></a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <a class="brand" href="#top">
+      <span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      Loci
+    </a>
+    <span class="foot-note">Proprietary software · your memories are yours · this page has no cookies and no analytics</span>
+    <span class="foot-links">
+      <a href="#brief">The brief</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#price">Price</a>
+    </span>
+  </div>
+</footer>
+</body>
+</html>

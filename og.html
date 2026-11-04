@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Loci — social card</title>
+<style>
+  :root {
+    --paper: #f3eee4;
+    --paper-2: #fbf7ed;
+    --ink: #1b1915;
+    --ink-soft: #38332b;
+    --muted: #665e51;
+    --rule: #d8cebd;
+    --rule-strong: #b6a992;
+    --red: #a33a26;
+    --red-ink: #7c2b1c;
+    --mono: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font: 20px/1.5 var(--serif);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .card {
+    position: relative;
+    width: 1200px; height: 630px;
+    padding: 52px 62px 44px;
+    display: grid;
+    grid-template-columns: 1.08fr 0.92fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .card::after {
+    content: "";
+    position: absolute; inset: 18px;
+    border: 1px solid rgba(182, 169, 146, 0.65);
+    pointer-events: none;
+  }
+  .brand {
+    display: inline-flex; align-items: center; gap: 11px;
+    font: 400 26px/1 var(--serif); letter-spacing: -0.02em;
+    margin-bottom: 34px;
+  }
+  .mark { display: grid; grid-template-columns: repeat(2, 6px); gap: 3px; }
+  .mark i { width: 6px; height: 6px; background: var(--ink); border-radius: 50%; display: block; }
+  .mark i:last-child { background: var(--red); }
+  .eyebrow {
+    font: 700 10px/1 var(--mono); letter-spacing: 0.19em;
+    text-transform: uppercase; color: var(--red);
+    margin: 0 0 18px;
+  }
+  h1 {
+    margin: 0;
+    font: 400 65px/0.99 var(--serif);
+    letter-spacing: -0.035em;
+    max-width: 620px;
+  }
+  h1 em { font-style: italic; color: var(--red-ink); white-space: nowrap; }
+  .sub {
+    margin: 26px 0 0;
+    font-size: 19px; line-height: 1.52;
+    color: var(--ink-soft); max-width: 530px;
+  }
+  .foot {
+    position: absolute; left: 62px; bottom: 38px;
+    display: flex; align-items: center; gap: 12px;
+    font: 600 10px/1 var(--mono); letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .foot b { color: var(--ink); font-weight: 700; }
+  .dot { width: 4px; height: 4px; background: var(--red); border-radius: 50%; }
+  .brief-card {
+    position: relative;
+    background: var(--paper-2);
+    border: 1px solid var(--rule-strong);
+    box-shadow: 11px 11px 0 rgba(27, 25, 21, 0.07);
+    padding: 20px 20px 17px 30px;
+    transform: rotate(-0.35deg);
+  }
+  .brief-card::before {
+    content: ""; position: absolute; left: 15px; top: 0; bottom: 0;
+    width: 1px; background: var(--red); opacity: 0.55;
+  }
+  .brief-top {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 12px; padding-bottom: 11px; margin-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .tag {
+    font: 600 9px/1 var(--mono); letter-spacing: 0.15em;
+    color: var(--muted); text-transform: uppercase; padding-top: 4px;
+  }
+  .stamp {
+    transform: rotate(3.5deg);
+    border: 1px solid var(--red); color: var(--red);
+    font: 700 8px/1 var(--mono); letter-spacing: 0.16em;
+    padding: 5px 6px 4px; white-space: nowrap;
+  }
+  pre {
+    margin: 0;
+    font: 400 12.4px/1.58 var(--mono);
+    color: var(--ink-soft);
+    white-space: pre-wrap;
+  }
+  .bh { color: var(--red-ink); font-weight: 700; }
+  .dim { color: var(--muted); }
+  .brief-foot {
+    display: flex; justify-content: space-between; gap: 12px;
+    border-top: 1px solid var(--rule); margin-top: 12px; padding-top: 9px;
+    font: 500 8.5px/1.4 var(--mono); letter-spacing: 0.04em;
+    color: var(--muted); text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<main class="card">
+  <div>
+    <div class="brand"><span class="mark"><i></i><i></i><i></i><i></i></span>Loci</div>
+    <p class="eyebrow">Local-first memory for AI assistants</p>
+    <h1>Stop introducing yourself to <em>your&nbsp;own</em> assistant.</h1>
+    <p class="sub">One dated brief — who you are, what you decided, how you work — handed over before the first token.</p>
+  </div>
+
+  <div class="brief-card" aria-label="Sample compiled brief">
+    <div class="brief-top">
+      <span class="tag">The brief / compiled 2 Nov 2026</span>
+      <span class="stamp">12 ACTIVE</span>
+    </div>
+<pre><span class="bh">## Who I am</span>
+Building Loci, a local-first memory
+layer for AI assistants.
+
+<span class="bh">## Decisions</span>
+- One-time $24. No subscription. <span class="dim">[binding]</span>
+- Desktop first; browser extension next.
+- Data stays on this machine. No API.
+
+<span class="bh">## Preferences</span>
+- Short answers. Show the diff, not a lecture.
+- Challenge the premise before executing.
+
+<span class="bh">## Open loops</span>
+- Clean-install test on a machine without Node.
+<span class="dim">- Superseded: "price it at $19"</span></pre>
+    <div class="brief-foot"><span>4 sections · 12 active</span><span>2,000 char budget</span></div>
+  </div>
+
+  <div class="foot"><b>Windows 10/11</b><span class="dot"></span>Runtime included<span class="dot"></span>One-time $24</div>
+</main>
+</body>
+</html>
