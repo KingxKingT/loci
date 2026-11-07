@@ -6,9 +6,9 @@
 <!-- PREVIEW: remove this noindex line when the checkout link is live. -->
 <meta name="robots" content="noindex">
 <title>Loci - a memory that survives between AI chats</title>
-<meta name="description" content="Loci compiles your notes into one dated brief — who you are, what you decided, how you work — and searches your local files with citations. For Claude, Cursor, or OpenCode. Local. One-time price.">
+<meta name="description" content="Loci gives Claude Desktop, Cursor, and OpenCode one dated memory brief, automatic capture in OpenCode, and twelve local MCP tools for notes and files.">
 <meta property="og:title" content="Loci — a memory that survives between AI chats">
-<meta property="og:description" content="One dated brief instead of a pile of fragments, plus a cited knowledge base from your own files. Local-first memory for Claude Desktop, Cursor, OpenCode, Windsurf, and Zed.">
+<meta property="og:description" content="One dated brief instead of a pile of fragments, automatic capture while you work in OpenCode, and twelve local tools for memory and your own files. Windows. One-time price.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://kingxkingt.github.io/loci/">
 <meta property="og:image" content="https://kingxkingt.github.io/loci/og.png">
@@ -162,6 +162,20 @@
     letter-spacing: 0.04em; color: var(--muted); text-transform: uppercase;
   }
   .micro span { white-space: nowrap; }
+
+  /* ---------- works ---------- */
+  .works { border-top: 1px solid var(--rule); background: var(--paper-2); }
+  .works-in {
+    display: flex; flex-wrap: wrap; align-items: baseline;
+    gap: 10px 30px; padding: 15px 0 14px;
+  }
+  .works-label {
+    font: 600 9.5px/1 var(--mono); letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .works-item {
+    font: 500 12.5px/1 var(--sans); color: var(--ink-soft);
+  }
 
   /* ---------- the brief card ---------- */
   .brief-figure { margin: 0; }
@@ -331,6 +345,42 @@
     display: block; margin-top: 14px;
     font: 400 10px/1.5 var(--mono); color: var(--muted);
   }
+  code {
+    font-family: var(--mono); font-size: 0.9em;
+    color: var(--ink); background: color-mix(in srgb, var(--rule) 34%, transparent);
+    padding: 1px 4px; border-radius: 2px;
+  }
+
+  /* ---------- the twelve tools ---------- */
+  .tool-grid {
+    display: grid; grid-template-columns: 1.15fr 0.85fr;
+    gap: 1px; background: var(--rule);
+    border: 1px solid var(--rule); margin-top: 8px;
+  }
+  .tool-col { background: var(--paper); padding: 24px 24px 22px; }
+  .tool-col-head {
+    display: flex; align-items: baseline; gap: 12px;
+    padding-bottom: 14px; margin-bottom: 4px;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .tool-col-head .tool-count {
+    font: 400 34px/0.9 var(--serif); letter-spacing: -0.04em; color: var(--red-ink);
+  }
+  .tool-col-head span:last-child {
+    font: 600 9.5px/1 var(--mono); letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .tool { padding: 13px 0; border-bottom: 1px dotted var(--rule); }
+  .tool:last-child { border-bottom: 0; padding-bottom: 0; }
+  .tool code { font-size: 12px; background: none; padding: 0; }
+  .tool p {
+    margin: 5px 0 0; font-size: 14.5px; line-height: 1.5; color: var(--ink-soft);
+  }
+  .tool-note {
+    margin: 22px 0 0; padding-left: 16px; border-left: 2px solid var(--red);
+    font-size: 15px; line-height: 1.55; color: var(--ink-soft); max-width: 74ch;
+  }
+  .tool-note strong { color: var(--ink); }
 
   /* ---------- privacy ---------- */
   .privacy { background: var(--ink); color: var(--paper); border-top: 0; }
@@ -472,6 +522,7 @@
     .content-row:nth-child(-n+2) { border-top: 1px solid var(--rule); }
     .content-row:first-child { border-top: 0; }
     .get-grid { grid-template-columns: 1fr 1fr; }
+    .tool-grid { grid-template-columns: 1fr; }
     .faq-grid h2 { max-width: none; }
     .reversal .lede { max-width: 58ch; }
   }
@@ -520,6 +571,8 @@
     <nav class="nav" aria-label="Sections">
       <a href="#brief">The brief</a>
       <a href="#files">Your files</a>
+      <a href="#capture">Auto-capture</a>
+      <a href="#tools">Tools</a>
       <a href="#how">How it works</a>
       <a href="#privacy">Privacy</a>
       <a href="#price">Price</a>
@@ -540,7 +593,7 @@
         <h1>Stop introducing yourself to <em>your own</em> assistant.</h1>
         <p class="hero-sub">
           Loci keeps one dated brief — who you are, what you decided, how you like to work —
-          and hands it to Claude, Cursor, or OpenCode before the first token.
+          and lets Claude, Cursor, or OpenCode load it at the start of a conversation.
           It runs on your PC. You pay once.
         </p>
         <div class="cta-row">
@@ -587,12 +640,24 @@ Do not recite it back.</span>
           </div>
         </div>
         <figcaption>
-          Compiler output, not a model summary. Same state in, same text out — so prompt caching
-          keeps working and you can audit every line.
+          Compiler output, not a model summary. Every line comes from stored records, so you can
+          audit it.
         </figcaption>
       </figure>
     </div>
   </section>
+
+  <!-- --------------------------------------------------------------- works -->
+  <div class="works" aria-label="Works with">
+    <div class="wrap works-in">
+      <span class="works-label">Loads in</span>
+      <span class="works-item">Claude Desktop</span>
+      <span class="works-item">Cursor</span>
+      <span class="works-item">OpenCode</span>
+      <span class="works-item">Windsurf</span>
+      <span class="works-item">Zed</span>
+    </div>
+  </div>
 
   <!-- --------------------------------------------------------- comparison -->
   <section class="compare" aria-labelledby="problem-title">
@@ -695,12 +760,18 @@ Do not recite it back.</span>
         <p class="kicker">03 — Reversal</p>
         <h2 id="reversal-title">Changing your mind is the hard part.</h2>
         <p class="lede">
-          Most memory tools keep both versions and let similarity sort it out. Loci retires the old
-          claim. The brief never contains a contradiction; the append-only log still contains the receipt.
+          Most memory tools keep both versions and let similarity sort it out. Loci stops a new
+          decision when it clearly overlaps one already in force: nothing is written until you
+          retire the old claim with <code>supersedes</code> or choose to keep both. The brief
+          carries the active claims and the append-only log still contains the receipt.
         </p>
         <div class="reversal-foot">
-          <b>Retired memories leave the brief, search, and export.</b><br>
-          They stay in <span>memories.jsonl</span> so you can answer “why did we change this?” six months later.
+          <b>An overlapping decision is not saved by accident.</b><br>
+          Overlap is judged from shared subject words, so the check is not semantic: rephrasing
+          the same decision merges, and a synonym with no word in common can still get through.<br>
+          The write comes back with the conflicting ids and both ways forward: replace, or keep both
+          on purpose. Retired claims leave the brief, search, and export, but stay in
+          <span>memories.jsonl</span> so you can answer “why did we change this?” six months later.
         </div>
       </div>
 
@@ -741,17 +812,21 @@ Do not recite it back.</span>
           <h3>Import locally</h3>
           <p>
             Add a file in the Files tab, or run <code>loci docs add</code>. Text, Markdown, HTML,
-            RTF, DOCX, and text-based PDF are extracted on your machine. Edit the file and import it
-            again: Loci updates that document instead of making a duplicate.
+            RTF, DOCX, and text-based PDF are extracted on your machine. A scan or a photo can be
+            read with Windows OCR when you tick that option for that import; normal extraction
+            always runs first. Edit the file and import it again: Loci updates that document
+            instead of making a duplicate, and the Files view marks a file that changed or vanished
+            on disk, refreshing the mark while it is open.
           </p>
-          <span class="tiny">No upload · no cloud conversion · no OCR</span>
+          <span class="tiny">No cloud conversion · OCR is opt-in on Windows · stale files are marked</span>
         </div>
         <div class="get">
           <h3>Answers point at the passage</h3>
           <p>
             Markdown headings start new parts, so “Refunds” does not trail into “Support”. Code files
             split at lines, not at <code>#</code> comments. The assistant gets a citation like
-            <code>["MSA 2026" — part 4 of 11]</code>, not an unattributed summary.
+            <code>["MSA 2026" — § Termination]</code>, not an unattributed summary. Plain text falls
+            back to the part number.
           </p>
           <span class="tiny">Click a result to read the source · comments never become fake headings</span>
         </div>
@@ -762,7 +837,7 @@ Do not recite it back.</span>
             decisions that are always relevant; a file appears only when the current question
             matches it.
           </p>
-          <span class="tiny">Nine tools total · 3 for files, 6 for memory</span>
+          <span class="tiny">Twelve tools total · 4 for files, 8 for memory</span>
         </div>
       </div>
 
@@ -770,11 +845,136 @@ Do not recite it back.</span>
     </div>
   </section>
 
+  <!-- ------------------------------------------------------------ capture -->
+  <section id="capture" class="compare" aria-labelledby="capture-title">
+    <div class="wrap reversal-grid">
+      <div>
+        <p class="kicker">05 — Auto-capture</p>
+        <h2 id="capture-title">You will forget to say remember.</h2>
+        <p class="lede">
+          So Loci listens to the only side that carries your intent: the messages you type. While
+          you work in OpenCode, an optional plugin reads what you send and files the durable parts —
+          a preference, a decision, who you are — without waiting to be asked.
+        </p>
+        <p class="lede" style="margin-top: 16px;">
+          Everything else is ignored. Assistant replies, tool output, pasted logs, fenced code,
+          quotations, and slash commands never reach the store.
+        </p>
+        <div class="reversal-foot">
+          <b>Automatic capture is a trade, not a trick.</b><br>
+          It buys coverage at the cost of store purity. The confidence gate and the review digest
+          are the safeguard. Everywhere else, capture stays manual: paste a chat, keep the lines
+          you choose.
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-label"><span>Write gates</span><span class="good">on by default</span></div>
+        <ul class="includes">
+          <li>
+            <strong>0.8 or higher, durable kind only</strong> — person, preference, decision, or
+            other. Saved as inferred, with your exact sentence kept as the origin.
+          </li>
+          <li>
+            <strong>0.6 to 0.8, or any fact or project</strong> — review queue. Nothing enters the
+            brief until you approve it.
+          </li>
+          <li>
+            <strong>Weaker or non-durable</strong> — dropped. No draft, no placeholder.
+          </li>
+        </ul>
+        <div class="panel-foot">
+          <strong>OpenCode only, and opt-in.</strong> Install the plugin with
+          <code>loci plugin opencode on</code>. <code>loci auto off</code> is the single switch
+          that stops automatic capture.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- -------------------------------------------------------------- tools -->
+  <section id="tools" aria-labelledby="tools-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">06 — The twelve tools</p>
+        <h2 id="tools-title">Small surface. Nothing hidden.</h2>
+        <p class="lede">
+          Loci exposes exactly twelve MCP tools: eight for memory, four for documents. Your
+          assistant sees the same twelve names, with no hidden write path and no background sync.
+        </p>
+      </div>
+
+      <div class="tool-grid">
+        <div class="tool-col">
+          <div class="tool-col-head"><span class="tool-count">8</span><span>memory</span></div>
+          <div class="tool">
+            <code>memory_search</code>
+            <p>Search the long-term store before answering. Read-only unless a result is marked used.</p>
+          </div>
+          <div class="tool">
+            <code>memory_add</code>
+            <p>Save a durable fact, preference, decision, or project detail. A clashing fact, preference, or decision waits for <code>supersedes</code> or <code>force</code>.</p>
+          </div>
+          <div class="tool">
+            <code>memory_capture</code>
+            <p>Scan a transcript for lines worth keeping. Returns candidates with confidence; never writes.</p>
+          </div>
+          <div class="tool">
+            <code>memory_update</code>
+            <p>Correct or refine a memory by id, including retiring it without deleting the history.</p>
+          </div>
+          <div class="tool">
+            <code>memory_confirm</code>
+            <p>Mark a memory still true after you say so, and clear its review flag.</p>
+          </div>
+          <div class="tool">
+            <code>memory_context</code>
+            <p>The compiled handover: who you are, what you are building, decisions in force, and matching citations.</p>
+          </div>
+          <div class="tool">
+            <code>memory_forget</code>
+            <p>Delete a memory by id. Only when you ask to forget it.</p>
+          </div>
+          <div class="tool">
+            <code>memory_list</code>
+            <p>List memories newest first, including what still needs confirmation.</p>
+          </div>
+        </div>
+
+        <div class="tool-col">
+          <div class="tool-col-head"><span class="tool-count">4</span><span>documents</span></div>
+          <div class="tool">
+            <code>doc_add</code>
+            <p>Import text, Markdown, CSV, HTML, .docx, or a text-based PDF. Scanned pages need opt-in OCR.</p>
+          </div>
+          <div class="tool">
+            <code>doc_search</code>
+            <p>Search imported documents. Results carry the exact citation and the matching excerpt.</p>
+          </div>
+          <div class="tool">
+            <code>doc_list</code>
+            <p>List documents with ids, titles, sizes, and whether the source file changed or went missing.</p>
+          </div>
+          <div class="tool">
+            <code>doc_forget</code>
+            <p>Delete an imported document by id. Only when you ask to remove that document.</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="tool-note">
+        <strong>ChatGPT web is not on the list.</strong> Its web app cannot launch a local MCP
+        server, so Loci does not pretend to work there. The twelve tools run through the clients
+        that can: Claude Desktop, Cursor, OpenCode, Windsurf, and Zed.
+      </p>
+    </div>
+  </section>
+
   <!-- ---------------------------------------------------------- what you get -->
   <section id="how" aria-labelledby="get-title">
     <div class="wrap">
       <div class="section-head">
-        <p class="kicker">05 — What you get</p>
+        <p class="kicker">07 — What you get</p>
         <h2 id="get-title">The unglamorous parts, done.</h2>
         <p class="lede">
           No vector database to host. No account to create. No “memory pipeline” to debug at 11pm.
@@ -784,7 +984,7 @@ Do not recite it back.</span>
       <div class="get-grid">
         <div class="get">
           <h3>A window you can read</h3>
-          <p>Every memory, searchable as you type. Paste a chat and keep only the lines worth remembering. Edit, pin, retire, or delete without opening a terminal. Flag a shaky memory and the review queue counts what is waiting.</p>
+          <p>Every memory, searchable as you type. Paste a chat and keep only the lines worth remembering. Edit, pin, retire, or delete without opening a terminal. Flag a shaky memory and the review queue counts what is waiting; decisions you have not confirmed in six months are marked “may be out of date”.</p>
           <span class="tiny">Served from 127.0.0.1 · per-run token · feedback stays local</span>
         </div>
         <div class="get">
@@ -795,7 +995,7 @@ Do not recite it back.</span>
         <div class="get">
           <h3>Connects itself</h3>
           <p>The installer finds Claude Desktop, Cursor, OpenCode, Windsurf, or Zed and writes the MCP entry for you.</p>
-          <span class="tiny">Restart the app once · nine tools appear</span>
+          <span class="tiny">Restart the app once · twelve tools appear</span>
         </div>
         <div class="get">
           <h3>Global and per-project</h3>
@@ -804,13 +1004,28 @@ Do not recite it back.</span>
         </div>
         <div class="get">
           <h3>Export is plain JSON</h3>
-          <p>Your memories are not hostage. Export current truth, import it on another machine, or read the log yourself.</p>
-          <span class="tiny">No lock-in · no proprietary format</span>
+          <p>Your memories are not hostage. <strong>Back up</strong> in the header downloads every memory and imported file as one JSON file; import it on another machine, or read the log yourself.</p>
+          <span class="tiny">No lock-in · one file · no proprietary format</span>
         </div>
         <div class="get">
           <h3>No dependency circus</h3>
           <p>No native modules, no database server, no Docker. The Windows download carries its own runtime.</p>
           <span class="tiny">Double-click install.bat · no Node install</span>
+        </div>
+        <div class="get">
+          <h3>A doctor that tells the truth</h3>
+          <p>If the server dies, <code>loci doctor</code> prints what it actually finds — the process, the heartbeat, the parent — including the unflattering line <code>unclean  pid=1234  last heartbeat 10:20:18Z  parent pid=4360 (dead)</code>. It does not invent a cause.</p>
+          <span class="tiny">Real pids, real timestamps · no guessed cause</span>
+        </div>
+        <div class="get">
+          <h3>The installer will not cut a live chat</h3>
+          <p>If an AI client still holds the memory server, setup stops instead of killing it: <code>Loci is in use by: OpenCode</code>, exit 2. Close the app and run it again. Only Loci's own window process is ever stopped.</p>
+          <span class="tiny">Refuses to update over a live connection</span>
+        </div>
+        <div class="get">
+          <h3>Notes survive the update</h3>
+          <p>An upgrade replaces program files, not <code>~/.loci</code>. When a source file changes, refresh only moves its badge to stale or missing — the text you imported stays exactly as it was.</p>
+          <span class="tiny">Current release v0.9.2 · contents never rewritten</span>
         </div>
       </div>
     </div>
@@ -820,7 +1035,7 @@ Do not recite it back.</span>
   <section id="privacy" class="privacy" aria-labelledby="privacy-title">
     <div class="wrap privacy-grid">
       <div>
-        <p class="kicker">06 — Privacy</p>
+        <p class="kicker">08 — Privacy</p>
         <h2 id="privacy-title">It is a file on your computer. That is the architecture.</h2>
         <p class="lede">
           No account, no sync, no telemetry. Your assistant reads the brief through a local MCP
@@ -851,7 +1066,7 @@ Do not recite it back.</span>
   <section id="price" class="price" aria-labelledby="price-title">
     <div class="wrap">
       <div class="section-head">
-        <p class="kicker">07 — Price</p>
+        <p class="kicker">09 — Price</p>
         <h2 id="price-title">Pay once. Keep it.</h2>
         <p class="lede">
           No subscription, no seats, no cloud bill. The assistant is yours; the memory should be too.
@@ -867,10 +1082,10 @@ Do not recite it back.</span>
         <div class="amount-note">One payment. No renewal. No account.</div>
         <ul class="includes">
           <li>Windows installer with its own runtime — no Node, no terminal</li>
-          <li>Desktop memory window: search, edit, pin, retire, review queue</li>
-          <li>Local file knowledge base with quoted citations and in-place re-import</li>
+          <li>Desktop memory window: search, edit, pin, retire, review queue, one-click backup</li>
+          <li>Local file knowledge base with quoted citations, heading anchors, and stale-file warnings</li>
           <li>MCP server for Claude Desktop, Cursor, OpenCode, Windsurf, and Zed</li>
-          <li>The brief compiler, supersede, project scope, and JSON export</li>
+          <li>The brief compiler, conflict guard, supersede, project scope, and JSON export</li>
           <li>The current version is yours to keep and run offline</li>
         </ul>
         <!-- SELLING: replace this href with your checkout URL. -->
@@ -885,7 +1100,7 @@ Do not recite it back.</span>
   <section id="faq" aria-labelledby="faq-title">
     <div class="wrap faq-grid">
       <div>
-        <p class="kicker">08 — Questions</p>
+        <p class="kicker">10 — Questions</p>
         <h2 id="faq-title">Questions people actually ask.</h2>
       </div>
 
@@ -915,10 +1130,13 @@ Do not recite it back.</span>
         <details>
           <summary>Does it read my chats automatically?<span class="plus" aria-hidden="true">+</span></summary>
           <p>
-            No. Loci does not watch your screen or hook your chat app. Use <strong>From a chat</strong>
-            to paste a conversation, review the lines it found, and save only what you choose. When an
-            assistant is connected through MCP, it can add a memory after you ask it to remember
-            something — but Loci itself never captures in the background.
+            Only if you turn it on, and only in OpenCode. The optional OpenCode plugin reads the
+            messages <em>you</em> type, saves durable high-confidence preferences, decisions, and
+            identity details; the borderline ones wait in review, and weak matches are dropped. It
+            never reads assistant replies, tool output, or your screen. In every other app, use
+            <strong>From a chat</strong> to paste a conversation, review the lines it found, and save
+            only what you choose; through MCP an assistant can add a memory after you ask it to
+            remember something. <code>loci auto off</code> stops automatic capture.
           </p>
         </details>
         <details>
@@ -926,17 +1144,21 @@ Do not recite it back.</span>
           <p>
             Yes. Add a local document in the Files tab. Loci extracts the text on your machine,
             splits it at Markdown headings (or lines for code), indexes each part, and returns the
-            matching excerpt with the document name and part number. Import the edited file again and
-            it updates that document instead of duplicating it. Scans without a text layer are
-            refused, and nothing is uploaded.
+            matching excerpt with the document name and, when it has one, the heading. Import the
+            edited file again and it updates that document instead of duplicating it; if the source
+            file has since changed or vanished, the listing says so. A scan or an image with no text
+            layer is refused unless you opt in to Windows OCR for that import. Nothing leaves the
+            machine.
           </p>
         </details>
         <details>
           <summary>What happens when I change my mind?<span class="plus" aria-hidden="true">+</span></summary>
           <p>
-            Retire the old memory — the ⊘ button in the window, or <code>--supersedes</code> on the
-            command line. The new claim becomes active, the old one leaves the brief and search, and
-            the history stays in the log for audit.
+            Loci will not quietly stack an overlapping decision on top of the first. The write
+            comes back with the old claim and both ways out. Retire the old memory — the ⊘
+            button in the window, or <code>--supersedes</code> on the command line — and the new claim
+            becomes active. Or keep both on purpose with <code>--force</code>. The old one leaves the
+            brief and search either way, and the history stays in the log for audit.
           </p>
         </details>
         <details>
@@ -944,14 +1166,16 @@ Do not recite it back.</span>
           <p>
             Yes. Memories are global by default. Use the switch in the header to open any folder —
             a code project, a client folder, or a course — and Loci keeps a second store for it. The
-            window and the brief can be scoped to global, project, or both.
+            window and the brief can be scoped to global, project, or both. The last folder you opened
+            is remembered and restored next time, if it still exists.
           </p>
         </details>
         <details>
           <summary>What if I move to another PC?<span class="plus" aria-hidden="true">+</span></summary>
           <p>
-            Export to JSON on the old machine, import on the new one. The store is plain text, so you
-            can also copy the folder yourself.
+            <strong>Back up</strong> on the old machine downloads every memory and imported file as
+            one JSON file; import it on the new one. The store is plain text, so you can also copy the
+            <code>.loci</code> folder yourself.
           </p>
         </details>
         <details>
@@ -992,6 +1216,8 @@ Do not recite it back.</span>
     <span class="foot-note">Proprietary software · your memories are yours · this page has no cookies and no analytics</span>
     <span class="foot-links">
       <a href="#brief">The brief</a>
+      <a href="#capture">Auto-capture</a>
+      <a href="#tools">Tools</a>
       <a href="#privacy">Privacy</a>
       <a href="#price">Price</a>
     </span>
