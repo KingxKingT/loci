@@ -130,3 +130,34 @@ pre-registered four-out-of-four table.
   host-injected/summarized blocks, not just non-user roles. Until patched,
   auto-capture should stay off during graded windows.
 - Full triage list (junk vs keep) recorded in the session triage file.
+
+**Resolution, 10 Nov 2026** — review ruled: fix rides *before* P5.2's
+OpenCode legs; scope limited to capture-boundary correction and regression
+coverage. Executed in that order:
+
+- Real store purged: all 45 junk records removed via `loci forget` (45/45,
+  zero failures). Post-verify: 23 live ids (15 triaged keepers + 8
+  pre-genuine records), all keepers present, zero junk residue, and no
+  test-question vocabulary searchable.
+- `loci auto off` executed on the real store. It stays off until 0.9.5
+  ships: the installed 0.9.4 binary still carries the unpatched boundary.
+- Source patch in `src/autocapture.js` (`cleanMessageText`): the capture
+  boundary now recognizes the *host-injected summary structure* — matched
+  `<conversation-checkpoint> … </conversation-checkpoint>` envelope regions
+  are stripped and only text outside the envelope is read; an envelope that
+  opens without closing is refused entirely rather than guessed around.
+  Deliberately narrow per review instruction: structure-based, no broad
+  textual heuristics that could swallow genuine user prose. One edit covers
+  every capture path (plugin → CLI `--messages`, `capture --file`); the
+  plugin's role filter itself is unchanged.
+- Regression coverage: six new capture-boundary tests in
+  `test/autocapture.test.js` — envelope-only message stores nothing; agent
+  reasoning inside an envelope is never rewritten into a preference;
+  envelope plus genuine remainder captures only the genuine part; an
+  unclosed envelope is refused; an envelope beside a genuine message in the
+  same batch captures only the genuine message; an envelope pasted as a
+  transcript through `capture --auto --file` is rejected. Full suite
+  216/216 green, including every pre-existing capture test.
+- Remaining before auto-capture may re-open: package 0.9.5 (rebuild,
+  refresh SELLING.md hashes, reinstall) — awaiting go, since it changes
+  buyer artifacts.

@@ -2,16 +2,26 @@
 
 Status as of 10 November 2026 · version 0.9.4 built, tested, and packaged
 
-## Open finding: auto-capture ingests host-injected text (10 Nov 2026)
+## Resolved: auto-capture ingests host-injected text (10 Nov 2026)
 
-The OpenCode auto-capture plugin trusts `role === "user"`. When the host
-delivers a conversation-summary block in user role — which OpenCode does after
-a compaction — the room's agent reasoning arrives as "user" text, and
-`capture --auto` stores reasoning fragments as active memories. Observed live:
-~45 junk records in a real store, including test-question quotes. The plugin
-must dismiss host-injected summary blocks by shape, not only by role. Defect
-fix candidate; tracked as a P5 finding in PLAN.md. Unchecked risk for every
-OpenCode user until patched.
+The OpenCode auto-capture plugin trusted `role === "user"`. When the host
+delivered a conversation-summary block in user role — which OpenCode does
+after a compaction — agent reasoning arrived as "user" text, and
+`capture --auto` stored reasoning fragments as active memories. Observed
+live: ~45 junk records in a real store, including test-question quotes.
+
+Fixed at the capture boundary in source (`src/autocapture.js`,
+`cleanMessageText`): the host-injected `<conversation-checkpoint>
+… </conversation-checkpoint>` envelope is recognized by structure and
+stripped wherever it appears, an unclosed envelope is refused entirely, and
+only text outside the envelope is read — no broad textual heuristics that
+could discard genuine user prose. Six regression tests cover the boundary;
+the full suite is 216/216 green. The polluted real store was triaged and
+purged (45 records forgotten, keepers verified, zero residue).
+
+Shipping note: the fix lives in source and tests. It reaches installed
+users with the 0.9.5 packaging, and real auto-capture stays `off` until
+then.
 
 ## What 0.9.4 changes
 

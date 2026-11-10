@@ -23,6 +23,12 @@ low-importance `(inferred)`-flagged memory, all live in the same brief.
   10 Nov 2026 auto-capture incident (host-injected text written as memories)
   proves leaks can appear without anyone typing them, so the check is a gate,
   not a formality.
+- 10 Nov 2026 status: the polluted real store was purged after triage (45
+  records forgotten; 15 keepers verified present; no test vocabulary
+  searchable), auto-capture is `off` on it, and the capture boundary now
+  rejects host-injected checkpoint envelopes in source with regression
+  tests (suite 216/216). The gate above remains mandatory before every
+  graded run.
 - Hedging is recorded verbatim as information, not scored as failure.
 
 ## Dataset (five items, identical in every client)
