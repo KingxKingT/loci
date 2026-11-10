@@ -382,6 +382,30 @@
   }
   .tool-note strong { color: var(--ink); }
 
+  /* ---------- chat demo ---------- */
+  .chat-demo {
+    margin: 26px 0 0; max-width: 74ch;
+    border: 1px solid var(--rule-strong); background: var(--paper-2);
+    box-shadow: 6px 6px 0 rgba(27, 25, 21, 0.06);
+  }
+  .chat-demo-head {
+    display: flex; justify-content: space-between; gap: 10px;
+    padding: 10px 14px; border-bottom: 1px solid var(--rule);
+    font: 600 9.5px/1 var(--mono); letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .chat-demo-log {
+    margin: 0; padding: 14px 16px;
+    font: 400 12.8px/1.62 var(--mono);
+    color: var(--ink-soft); white-space: pre-wrap;
+  }
+  .chat-demo-log .who { font-weight: 700; color: var(--red-ink); }
+  .chat-demo-log .dim { color: var(--muted); }
+  .chat-demo + .cap {
+    margin-top: 10px; max-width: 74ch;
+    font-size: 13.5px; line-height: 1.5; color: var(--muted);
+  }
+
   /* ---------- privacy ---------- */
   .privacy { background: var(--ink); color: var(--paper); border-top: 0; }
   .privacy .kicker { color: var(--red-bright); }
@@ -594,6 +618,7 @@
         <p class="hero-sub">
           Loci keeps one dated brief — who you are, what you decided, how you like to work —
           and lets Claude, Cursor, or OpenCode load it at the start of a conversation.
+          ChatGPT gets the same brief through a browser extension that inserts it when you click.
           It runs on your PC. You pay once.
         </p>
         <div class="cta-row">
@@ -602,7 +627,8 @@
         </div>
         <p class="micro">
           <span>Windows 10 / 11</span> · <span>Its own runtime</span> ·
-          <span>No account</span> · <span>No subscription</span>
+          <span>No account</span> · <span>No subscription</span> ·
+          <span>ChatGPT works by click-to-insert</span>
         </p>
       </div>
 
@@ -969,6 +995,30 @@ Do not recite it back.</span>
         inserted text is marked as background, so the model takes it as context and waits for your question.
         The twelve tools run through the native clients: Claude Desktop, Cursor, OpenCode, Windsurf, and Zed.
       </p>
+
+      <div class="chat-demo" aria-label="Example of the extension flow in ChatGPT">
+        <div class="chat-demo-head"><span>chatgpt.com · the extension · 0.9.4</span><span>click → insert → send</span></div>
+<pre class="chat-demo-log"><span class="who">You</span> <span class="dim">(click “Loci ▸ insert brief”, then send)</span>
+&lt;memory_context source="loci"&gt;
+… who you are · what you're building · decisions in force ·
+preferences · open loops …
+&lt;/memory_context&gt;
+(This is background from my own local memory store, Loci — context,
+not a question. Take it into account when I ask something next.)
+
+<span class="who">ChatGPT</span>
+Got it — that's background about you and your projects, not a question.
+I'll keep it in mind for whatever you ask next.
+
+<span class="who">You</span>
+Which database did we settle on and why?
+
+<span class="who">ChatGPT</span>
+Postgres, per your own decision from 14 Oct — SQLite was replaced
+when the queries outgrew it. Want me to keep working on top of that
+setup?</pre>
+      </div>
+      <p class="cap">The flow, not a screenshot: the brief text is Loci's real output format and the framing line is the one the extension actually inserts; the assistant's replies are illustrative of how a model reads it.</p>
     </div>
   </section>
 
