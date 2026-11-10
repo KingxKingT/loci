@@ -1,13 +1,17 @@
 # Loci build plan
 
-Priority order is binding: finish P0, then P1, then P2, then P3. Do not start a
-later phase while an earlier one is unfinished unless the user says so. This plan
+Priority order is binding: finish P0, then P1, then P2, then P3, then P4, then
+P5. P5 is the last phase before the storefront opens. Do not start a later
+phase while an earlier one is unfinished unless the user says so. This plan
 is also stored in Loci itself (`memory_search "roadmap"`).
 
-Status as of 10 November 2026. P0–P4 are complete. P5 — reliability
-testing across real AI assistants — is the next phase, and the feature set is
-frozen: no new retrieval engine, decision system, or interface until P5 is
-proven. This plan is also stored in Loci itself (`memory_search "roadmap"`).
+Priority order is binding: finish P0, then P1, then P2, then P3, then P4, then
+P5. P5 is the last phase before the storefront opens. Do not start a later
+phase while an earlier one is unfinished unless the user says so.
+
+Status as of 10 November 2026. P0–P4 are complete. P5 is under way:
+two of its three tests have already passed. The feature set is frozen: no new
+retrieval engine, decision system, or interface until P5 is proven.
 
 ## P0 — make the shipped version correct
 
@@ -49,7 +53,7 @@ proven. This plan is also stored in Loci itself (`memory_search "roadmap"`).
 | P4.3 | Sharper "not running" copy in the extension and popup names the fix: start Loci from the Desktop shortcut. | Done (0.9.4) |
 | P4.4 | Site: the ChatGPT extension is named in the hero, and an example of the framed insert flow (click → insert → send → model reads it as context) appears in the tools section. Prompted by the second round of GPT's external review. | Done (0.9.4, site) |
 
-## P5 — cross-assistant reliability test (planned, not started)
+## P5 — cross-assistant reliability test (under way, 10 Nov 2026)
 
 External review (GPT, 10 Nov 2026, second pass) converged with the plan here:
 stop expanding the feature list; prove the existing features deliver
@@ -59,7 +63,29 @@ reliably across real AI assistants.
 | --- | --- | --- |
 | P5.1 | Clean-VM install and purchase run: a genuinely fresh Windows machine installs from the buyer ZIP, walks the interview, and a real checkout is exercised. **Success:** install, interview, autostart, and purchase work on the fresh machine with no dev tools present. Required before the storefront opens. | Pending (needs the user: checkout URL + clean machine) |
 | P5.2 | Brief quality across hosts: one identical memory dataset loaded into every client — including a superseded decision, a project-specific preference, an active decision, and one irrelevant memory — then the initial brief and a follow-up answer compared in Claude Desktop, Cursor, OpenCode, Windsurf or Zed, and ChatGPT web (extension). **Success:** each assistant retrieves the memories and applies them correctly in answers; the irrelevant memory stays out of the brief; the superseded decision is never cited as active. | Planned |
-| P5.3 | Re-test with 0.9.4 in ChatGPT web specifically: the framed insert, an ack, a follow-up question, and an answer that uses the brief — the flow the site demo describes. The extension is evaluated as a context-insertion system, not an MCP client; it is not supposed to write memories back. **Success:** the brief is understood as background, and the follow-up answer cites the correct active decision (Postgres-from-2-November, not the retired claim). | In progress — Test 1 passed: ChatGPT read the framed insert as background, not a question (10 Nov 2026, external beta report). Test 2, retrieval ("What hardware constraints should any model bundled inside Loci respect?" → expect ≤ ~3B parameters, 7.7 GB RAM, 2-core i3-1115G4, no dedicated GPU — memory `m_mvzaf3u2hevf`, confirmed present in the compiled brief), pending. **Protocol (per external reviewer 10 Nov):** the first conversation was contaminated by the grading table appearing in-prompt, so Test 2 must be run in a fresh ChatGPT conversation: insert the brief, wait for the ack, then send only the question — no ground truth, scoring table, or hints in the test prompt. Result is recorded pass or fail either way. |
+| P5.3 | Re-test with 0.9.4 in ChatGPT web specifically: the framed insert, an ack, a follow-up question, and an answer that uses the brief — the flow the site demo describes. The extension is evaluated as a context-insertion system, not an MCP client; it is not supposed to write memories back. **Success:** the brief is understood as background, and the follow-up answer cites the correct active decision. | **Passed (10 Nov 2026).** Test 1, framing: ChatGPT read the framed insert as background, not a question, and the ack reproduced in a second fresh session. Test 2, blind retrieval: run in a fresh ChatGPT conversation per the contamination protocol (the grading table from round 1 had leaked into that thread's context), with the question sent bare — ChatGPT recalled all four stored hardware specifications (`m_mvzaf3u2hevf`, ≤ ~3B parameters / 7.7 GB RAM / 2-core i3-1115G4 / no dedicated GPU) with no invented specifications and no hedging. Verbatim evidence below. Remaining coverage: the superseded-decision citation check rides on P5.2's dataset. |
+
+### P5.3 evidence (verbatim)
+
+ChatGPT's answer to "What hardware constraints should any model bundled inside
+Loci respect?" — fresh conversation, brief inserted by the extension, no ground
+truth or scoring language in the prompt:
+
+> Any model bundled inside Loci should respect these hardware constraints:
+>
+> - CPU: Intel Core i3-1115G4 (2 cores).
+> - RAM: 7.7 GB available system memory.
+> - GPU: Integrated graphics only; no dedicated GPU.
+> - Maximum model size: Approximately 3 billion parameters (3B).
+> - Priority: CPU-friendly inference, low memory consumption, and no dependency
+>   on GPU acceleration.
+>
+> Loci should remain usable on this low-end machine without exhausting system
+> RAM or causing out-of-memory errors.
+
+All four stored specifics recalled; the "Priority" lines are faithful
+derivations of the stored constraint, not inventions. Graded PASS per the
+pre-registered four-out-of-four table.
 
 ## Rules that apply to every phase
 
