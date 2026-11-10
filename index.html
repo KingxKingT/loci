@@ -966,7 +966,8 @@ Do not recite it back.</span>
         <strong>ChatGPT web works through the extension, by click.</strong> A browser page cannot launch a
         local MCP server, so ChatGPT's web app gets a manually loaded browser extension instead: its button
         puts your brief into the chat input when <em>you</em> click, and you send the message yourself. The
-        twelve tools run through the native clients: Claude Desktop, Cursor, OpenCode, Windsurf, and Zed.
+        inserted text is marked as background, so the model takes it as context and waits for your question.
+        The twelve tools run through the native clients: Claude Desktop, Cursor, OpenCode, Windsurf, and Zed.
       </p>
     </div>
   </section>
@@ -1024,9 +1025,14 @@ Do not recite it back.</span>
           <span class="tiny">Refuses to update over a live connection</span>
         </div>
         <div class="get">
+          <h3>Ready before you are</h3>
+          <p>Loci can start with Windows by itself — turn it off any time. One shortcut in your Startup folder, no registry entry, nothing hidden. You can also leave it off and open the Desktop shortcut yourself.</p>
+          <span class="tiny">Your call · a file you can see and delete</span>
+        </div>
+        <div class="get">
           <h3>Notes survive the update</h3>
           <p>An upgrade replaces program files, not <code>~/.loci</code>. When a source file changes, refresh only moves its badge to stale or missing — the text you imported stays exactly as it was.</p>
-          <span class="tiny">Current release v0.9.2 · contents never rewritten</span>
+          <span class="tiny">Current release v0.9.4 · contents never rewritten</span>
         </div>
       </div>
     </div>
@@ -1086,6 +1092,7 @@ Do not recite it back.</span>
           <li>Desktop memory window: search, edit, pin, retire, review queue, one-click backup</li>
           <li>Local file knowledge base with quoted citations, heading anchors, and stale-file warnings</li>
           <li>MCP server for Claude Desktop, Cursor, OpenCode, Windsurf, and Zed</li>
+          <li>Browser extension for ChatGPT's web app — inserts your brief when you click</li>
           <li>The brief compiler, conflict guard, supersede, project scope, and JSON export</li>
           <li>The current version is yours to keep and run offline</li>
         </ul>
@@ -1113,7 +1120,18 @@ Do not recite it back.</span>
             launch a local MCP server, so the extension fetches your brief from Loci on your machine
             and inserts it into the chat input when <strong>you</strong> click its button; you send the
             message yourself. Nothing is captured from the page and nothing is sent automatically.
-            The native tools work with Claude Desktop, Cursor, OpenCode, Windsurf, and Zed.
+            The inserted text ends with one plain line saying it is background context, not a
+            question, so the model reads it and waits for what you ask next. The native tools work
+            with Claude Desktop, Cursor, OpenCode, Windsurf, and Zed.
+          </p>
+        </details>
+        <details>
+          <summary>Does it start when Windows does?<span class="plus" aria-hidden="true">+</span></summary>
+          <p>
+            If you want it to. One shortcut, visible in your Startup menu, starts a minimized
+            server when you log in; delete the shortcut and it stops. Nothing hides in the
+            registry and nothing runs that you cannot see. If you prefer to open Loci yourself,
+            the Desktop shortcut works exactly as before.
           </p>
         </details>
         <details>
