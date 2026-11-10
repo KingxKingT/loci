@@ -2,6 +2,17 @@
 
 Status as of 10 November 2026 · version 0.9.4 built, tested, and packaged
 
+## Open finding: auto-capture ingests host-injected text (10 Nov 2026)
+
+The OpenCode auto-capture plugin trusts `role === "user"`. When the host
+delivers a conversation-summary block in user role — which OpenCode does after
+a compaction — the room's agent reasoning arrives as "user" text, and
+`capture --auto` stores reasoning fragments as active memories. Observed live:
+~45 junk records in a real store, including test-question quotes. The plugin
+must dismiss host-injected summary blocks by shape, not only by role. Defect
+fix candidate; tracked as a P5 finding in PLAN.md. Unchecked risk for every
+OpenCode user until patched.
+
 ## What 0.9.4 changes
 
 - **Loci starts with Windows by itself.** `loci autostart on` creates

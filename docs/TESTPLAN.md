@@ -18,6 +18,11 @@ low-importance `(inferred)`-flagged memory, all live in the same brief.
   wrong store answering would invalidate everything.
 - Ground truth, scoring language, and this document stay outside every tested
   conversation. Questions are sent bare in fresh conversations.
+- Before any graded pass, the tested store is leak-checked for test-design
+  vocabulary. A fresh `LOCI_HOME` store starts empty by construction; the
+  10 Nov 2026 auto-capture incident (host-injected text written as memories)
+  proves leaks can appear without anyone typing them, so the check is a gate,
+  not a formality.
 - Hedging is recorded verbatim as information, not scored as failure.
 
 ## Dataset (five items, identical in every client)

@@ -111,3 +111,22 @@ pre-registered four-out-of-four table.
 2. **Memory relevance** — tested by P5.2's adversarial dataset.
 3. **Superseded-decision citation** — already in P5.2's adversarial dataset.
 4. **Protocol integrity** — promoted to a standing rule above.
+
+### P5 finding: auto-capture ingests host-injected text (10 Nov 2026)
+
+- During P5.2 staging the real store was found polluted: ~45 records active in
+  the brief are fragments of the agent's own reasoning, quoted inside
+  OpenCode's conversation-checkpoint summary blocks. CSS selectors, stray
+  quotes ("in comment", "that.\" then run capture"), and two records quoting
+  the P5.2 test questions verbatim ("snow flurries", "winter mode") are live
+  memories.
+- Root cause: the OpenCode auto-capture plugin filters messages by
+  `role === "user"` only. When the host injects a session summary into the
+  conversation *in user role*, the plugin treats it as user text and
+  `capture --auto` (confidence 0.8) waves most fragments through.
+- Consequence: brief pollution in every OpenCode session, plus a protocol
+  leak (test design text stored where a model could read it).
+- Registry: defect fix candidate. The plugin must dismiss
+  host-injected/summarized blocks, not just non-user roles. Until patched,
+  auto-capture should stay off during graded windows.
+- Full triage list (junk vs keep) recorded in the session triage file.
