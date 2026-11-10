@@ -2,6 +2,36 @@
 
 All notable changes to Loci are recorded here.
 
+## [0.9.5] - 10 November 2026
+
+### Added
+
+- `loci wake` — one command that does the Desktop shortcut's job again: if
+  the server is already alive it says so and exits quietly; if it is dead it
+  starts it with the same visible window. This is the OS entry point for the
+  `loci://` URL scheme, which lets the browser extension start Loci (a web
+  page cannot launch programs; a custom scheme registered in HKCU is the one
+  browser-blessed path, and Chrome shows its own "Open Loci?" confirmation
+  the first time).
+- `loci wake register` / `loci wake unregister` write or remove the
+  `loci://` handler in `HKCU\Software\Classes\loci` only — no administrator
+  rights, nothing else in the registry is touched. `reg.exe` is driven
+  through argument lists, never a quoted command string.
+- The popup shows a **Start Loci** button while the local server is down;
+  clicking it fires `loci://wake`, then waits on the same endpoint the
+  extension already uses and refreshes the brief when Loci is up.
+- The in-page button on chatgpt.com, clicked while Loci is down, starts
+  Loci the same way and asks for one more click to insert the brief.
+- The installer runs `loci wake register` during installation and says so;
+  `install.bat --remove` unregisters the handler.
+
+### Changed
+
+- Package and extension version bumped to 0.9.5. Verification: `node --test`
+  reports 225 tests, 225 pass, 0 fail (9 new wake/protocol tests exercise a
+  temporary store and a fake registry executor, so the real registry is
+  never touched by the suite).
+
 ## [0.9.4] - 10 November 2026
 
 ### Added

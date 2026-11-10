@@ -52,6 +52,7 @@ retrieval engine, decision system, or interface until P5 is proven.
 | P4.2 | Extension-inserted and popup-copied briefs carry a one-line framing so the model does not answer "there's no question here": `(This is background from my own local memory store, Loci — context, not a question. Take it into account when I ask something next.)` The user still clicks and sends; insertion stays manual. | Done (0.9.4) |
 | P4.3 | Sharper "not running" copy in the extension and popup names the fix: start Loci from the Desktop shortcut. | Done (0.9.4) |
 | P4.4 | Site: the ChatGPT extension is named in the hero, and an example of the framed insert flow (click → insert → send → model reads it as context) appears in the tools section. Prompted by the second round of GPT's external review. | Done (0.9.4, site) |
+| P4.5 | One-click wake: the extension's Start Loci button (and the in-page button while Loci is down) starts the server through the `loci://wake` URL scheme, registered in HKCU by `install.bat`; Chrome's own first-click confirmation is the security story. `loci wake` is the Desktop shortcut's job done again — alive = say so, dead = start it. | Done (0.9.5) |
 
 ## P5 — cross-assistant reliability test (under way, 10 Nov 2026)
 

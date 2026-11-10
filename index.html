@@ -997,7 +997,7 @@ Do not recite it back.</span>
       </p>
 
       <div class="chat-demo" aria-label="Example of the extension flow in ChatGPT">
-        <div class="chat-demo-head"><span>chatgpt.com · the extension · 0.9.4</span><span>click → insert → send</span></div>
+        <div class="chat-demo-head"><span>chatgpt.com · the extension · 0.9.5</span><span>click → insert → send</span></div>
 <pre class="chat-demo-log"><span class="who">You</span> <span class="dim">(click “Loci ▸ insert brief”, then send)</span>
 &lt;memory_context source="loci"&gt;
 … who you are · what you're building · decisions in force ·
@@ -1076,13 +1076,13 @@ top of that setup?</pre>
         </div>
         <div class="get">
           <h3>Ready before you are</h3>
-          <p>Loci can start with Windows by itself — turn it off any time. One shortcut in your Startup folder, no registry entry, nothing hidden. You can also leave it off and open the Desktop shortcut yourself.</p>
+          <p>Loci can start with Windows by itself — one shortcut in your Startup folder, nothing hidden — and the browser extension can start it with one click while it is closed. For that one click, the installer adds a <code>loci://</code> handler in your user registry (<code>HKCU</code>, no admin rights; the uninstaller removes it, or run <code>loci wake unregister</code>). Turn all of it off any time.</p>
           <span class="tiny">Your call · a file you can see and delete</span>
         </div>
         <div class="get">
           <h3>Notes survive the update</h3>
           <p>An upgrade replaces program files, not <code>~/.loci</code>. When a source file changes, refresh only moves its badge to stale or missing — the text you imported stays exactly as it was.</p>
-          <span class="tiny">Current release v0.9.4 · contents never rewritten</span>
+          <span class="tiny">Current release v0.9.5 · contents never rewritten</span>
         </div>
       </div>
     </div>
@@ -1184,9 +1184,11 @@ top of that setup?</pre>
           <summary>Does it start when Windows does?<span class="plus" aria-hidden="true">+</span></summary>
           <p>
             If you want it to. One shortcut, visible in your Startup menu, starts a minimized
-            server when you log in; delete the shortcut and it stops. Nothing hides in the
-            registry and nothing runs that you cannot see. If you prefer to open Loci yourself,
-            the Desktop shortcut works exactly as before.
+            server when you log in; delete the shortcut and it stops. Nothing hides: no
+            services, no Run keys — just the shortcut you can see, plus (new in 0.9.5)
+            a <code>loci://</code> handler in your user registry so the browser extension
+            can start Loci with a click; the uninstaller removes both. If you prefer to
+            open Loci yourself, the Desktop shortcut works exactly as before.
           </p>
         </details>
         <details>

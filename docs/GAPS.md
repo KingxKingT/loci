@@ -1,6 +1,26 @@
 # Loci gap audit
 
-Status as of 10 November 2026 · version 0.9.4 built, tested, and packaged
+Status as of 10 November 2026 · version 0.9.5 built, tested, and packaged
+
+## What 0.9.5 changes
+
+- **Loci can be started from the browser, with the browser in charge.** A web
+  page cannot launch programs, so the installer registers the `loci://` scheme
+  under HKCU (no administrator rights) and `install.bat --remove` deletes it.
+  Clicking **Start Loci** in the popup — or clicking the in-page button while
+  the server is down — hands `loci://wake` to Windows; Chrome shows its own
+  "Open Loci?" confirmation the first time. `loci wake` never opens a second
+  server: alive = say so and exit quietly; dead = start it with the same
+  visible window as a double-click of the Desktop shortcut.
+- **The registration is honest about scope.** `loci wake register` writes
+  exactly three keys under `HKCU\Software\Classes\loci`; `loci wake
+  unregister` removes exactly that key. `reg.exe` is driven through argument
+  lists, never a quoted command string, so quoting bugs cannot smuggle extra
+  characters into the registry. The suite uses a fake registry executor and a
+  temporary store, so tests never touch the user's registry.
+- **Verification:** `node --test` reports 225 tests, 225 pass, 0 fail
+  (9 new wake/protocol tests). Artifacts and SHA-256 hashes below are
+  recorded in `SELLING.md` after the rebuild.
 
 ## Resolved: auto-capture ingests host-injected text (10 Nov 2026)
 
