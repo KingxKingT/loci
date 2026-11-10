@@ -4,7 +4,10 @@ Priority order is binding: finish P0, then P1, then P2, then P3. Do not start a
 later phase while an earlier one is unfinished unless the user says so. This plan
 is also stored in Loci itself (`memory_search "roadmap"`).
 
-Status as of 6 November 2026. P0, P1, and P2 are complete; P3 is next.
+Status as of 10 November 2026. P0–P4 are complete. P5 — reliability
+testing across real AI assistants — is the next phase, and the feature set is
+frozen: no new retrieval engine, decision system, or interface until P5 is
+proven. This plan is also stored in Loci itself (`memory_search "roadmap"`).
 
 ## P0 — make the shipped version correct
 
@@ -54,9 +57,9 @@ reliably across real AI assistants.
 
 | # | Item | Status |
 | --- | --- | --- |
-| P5.1 | Clean-VM install and purchase run: a genuinely fresh Windows machine installs from the buyer ZIP, walks the interview, and a real checkout is exercised. Required before the storefront opens. | Pending (needs the user: checkout URL + clean machine) |
-| P5.2 | Brief quality across hosts: create identical memory state, then compare the initial brief and a follow-up answer in Claude Desktop, Cursor, OpenCode, Windsurf or Zed, and ChatGPT web (extension). Record where the brief reads as context and the answers actually use it. | Planned |
-| P5.3 | Re-test with 0.9.4 in ChatGPT web specifically: the framed insert, an ack, a follow-up question, and an answer that uses the brief — the flow the site demo describes. | Planned |
+| P5.1 | Clean-VM install and purchase run: a genuinely fresh Windows machine installs from the buyer ZIP, walks the interview, and a real checkout is exercised. **Success:** install, interview, autostart, and purchase work on the fresh machine with no dev tools present. Required before the storefront opens. | Pending (needs the user: checkout URL + clean machine) |
+| P5.2 | Brief quality across hosts: one identical memory dataset loaded into every client — including a superseded decision, a project-specific preference, an active decision, and one irrelevant memory — then the initial brief and a follow-up answer compared in Claude Desktop, Cursor, OpenCode, Windsurf or Zed, and ChatGPT web (extension). **Success:** each assistant retrieves the memories and applies them correctly in answers; the irrelevant memory stays out of the brief; the superseded decision is never cited as active. | Planned |
+| P5.3 | Re-test with 0.9.4 in ChatGPT web specifically: the framed insert, an ack, a follow-up question, and an answer that uses the brief — the flow the site demo describes. The extension is evaluated as a context-insertion system, not an MCP client; it is not supposed to write memories back. **Success:** the brief is understood as background, and the follow-up answer cites the correct active decision (Postgres-from-2-November, not the retired claim). | Planned |
 
 ## Rules that apply to every phase
 

@@ -1014,9 +1014,9 @@ I'll keep it in mind for whatever you ask next.
 Which database did we settle on and why?
 
 <span class="who">ChatGPT</span>
-Postgres, per your own decision from 14 Oct — SQLite was replaced
-when the queries outgrew it. Want me to keep working on top of that
-setup?</pre>
+Postgres, per your own decision from 2 November — SQLite was
+replaced when the queries outgrew it. Want me to keep working on
+top of that setup?</pre>
       </div>
       <p class="cap">The flow, not a screenshot: the brief text is Loci's real output format and the framing line is the one the extension actually inserts; the assistant's replies are illustrative of how a model reads it.</p>
     </div>
@@ -1096,9 +1096,14 @@ setup?</pre>
         <h2 id="privacy-title">It is a file on your computer. That is the architecture.</h2>
         <p class="lede">
           No account, no sync, no telemetry. Your assistant reads the brief through a local MCP
-          process; the window is a local page. Nothing leaves the machine unless you paste it somewhere.
+          process; the window is a local page. Loci never uploads or synchronizes your memory.
+          One honest limit: when you use a cloud-hosted AI assistant, the information you choose
+          to provide through its connection, or paste into its chat, may be transmitted to that
+          provider under its own privacy policy. That is the assistant's side, not Loci's — but
+          you should know it.
         </p>
         <ul class="privacy-facts">
+          <li>Loci does not upload, process or synchronize anything</li>
           <li>Works offline</li>
           <li>No API key</li>
           <li>No analytics</li>

@@ -50,19 +50,24 @@ Status as of 10 November 2026 · version 0.9.4 built, tested, and packaged
   new extension-surface tests (tokenless read, block parity, GET-only refusal,
   gating preserved, rebinding refusal, no-CORS, and manifest/package agreement).
 
-## What 0.9.2 changes
+## Historical notes — release by release
+
+The section below is kept for history. Its version references describe the
+state **when 0.9.2 shipped**, not today: 0.9.3 and 0.9.4 followed it, so that
+"installed copy is still 0.9.0" note is at least two releases out of date. The
+current installer is `install.bat` from `dist\loci-memory-0.9.4`; it upgrades
+program files and never touches `~/.loci`. The scorecard paragraph below is
+still current — **Shipped** means the 0.9.4 build in `dist/` does it today.
 
 This is the honest scorecard for the gap list. **Shipped** means the 0.9.4
 build in `dist/` does it today. **Partial** means a usable piece exists and the
 missing part is named. **Not built** means Loci does not claim it.
 
-0.9.2 is built, tested, and packaged. It adds automatic capture for OpenCode 2,
+**What 0.9.2 added (historical).** Automatic capture for OpenCode 2,
 so a user no longer has to say "remember this" in that one host: an opt-in
 plugin reads only the user's messages, writes only durable high-confidence
 statements, and sends everything else to review. It still exposes **12 tools —
-8 memory and 4 document**. The installed copy is still 0.9.0 until `install.bat`
-from `dist\loci-memory-0.9.2` is run; no memory files are touched by the
-upgrade.
+8 memory and 4 document**, and no memory files were touched by that upgrade.
 
 | Gap | Status | What is actually there | What is not |
 | --- | --- | --- | --- |
